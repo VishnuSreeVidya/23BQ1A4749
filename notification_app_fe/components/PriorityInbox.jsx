@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import NotificationCard from './NotificationCard';
 import LiveBeacon from './LiveBeacon';
 import { processNotifications } from '../lib/priorityEngine';
-import LoggingMiddleware from '../../logging-middleware.js';
+import LoggingMiddleware from '../../logging_middleware/index.js';
 
 const PATCH_BASE = '/api/v1/notifications';
 const TARGET_ENDPOINT = process.env.NEXT_PUBLIC_API_URL || '/api/v1/notifications';

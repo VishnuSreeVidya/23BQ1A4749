@@ -1,327 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Campus Priority Inbox</title>
     <style>
-        :root {
-            --placement-color: #ef4444;
-            --result-color: #3b82f6;
-            --event-color: #10b981;
-            --bg-main: #0f172a;
-            --card-bg: #1e293b;
-            --text-title: #f8fafc;
-            --text-body: #cbd5e1;
-            --text-muted: #94a3b8;
-        }
-
         @keyframes pulse-beacon {
             0%   { transform: scale(1);   opacity: 1; }
             50%  { transform: scale(1.5); opacity: 0.4; }
             100% { transform: scale(1);   opacity: 1; }
         }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-main);
-            color: var(--text-title);
-            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
             padding: 40px 20px;
-            display: flex;
-            justify-content: center;
         }
-
-        .wrapper {
-            max-width: 750px;
-            width: 100%;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 35px;
-        }
-
-        h1 {
-            font-size: 2.25rem;
-            font-weight: 700;
-            letter-spacing: -0.025em;
-            margin-bottom: 8px;
-        }
-
-        .desc {
-            color: var(--text-muted);
-            font-size: 1.05rem;
-            margin: 0;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .live-beacon {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #22c55e;
-            animation: pulse-beacon 2s ease-in-out infinite;
-            flex-shrink: 0;
-        }
-
-        #inbox-container {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 24px;
-            border-left: 6px solid #64748b;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-3px);
-        }
-
-        .card.placement:hover {
-            box-shadow: 0 12px 24px -6px rgba(239, 68, 68, 0.35);
-        }
-
-        .card.result:hover {
-            box-shadow: 0 12px 24px -6px rgba(59, 130, 246, 0.35);
-        }
-
-        .card.event:hover {
-            box-shadow: 0 12px 24px -6px rgba(16, 185, 129, 0.35);
-        }
-
-        .card.placement { border-left-color: var(--placement-color); }
-        .card.result { border-left-color: var(--result-color); }
-        .card.event { border-left-color: var(--event-color); }
-
-        .meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .badge {
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            padding: 4px 12px;
-            border-radius: 9999px;
-            color: #ffffff;
-        }
-
-        .badge.placement { background-color: var(--placement-color); }
-        .badge.result { background-color: var(--result-color); }
-        .badge.event { background-color: var(--event-color); }
-
-        .time {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        .title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin: 0;
-        }
-
-        .msg {
-            color: var(--text-body);
-            line-height: 1.6;
-            margin: 0;
-        }
-
-        .status-text {
-            text-align: center;
-            font-size: 1.15rem;
-            color: var(--text-muted);
-            padding: 50px 0;
-        }
-
-        .card-actions {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 4px;
-        }
-
-        .mark-read-btn {
-            background: none;
-            border: 1px solid #475569;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 6px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            will-change: transform;
-        }
-
-        .mark-read-btn:hover {
-            border-color: #22c55e;
-            color: #22c55e;
-            background-color: rgba(34, 197, 94, 0.1);
-            filter: brightness(1.2);
-        }
-
-        .mark-read-btn:active {
-            transform: scale(0.96);
-        }
-
-        .mark-read-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        .card.removing {
-            opacity: 0;
-            transform: scale(0.95);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
+        #root { width: 100%; max-width: 750px; }
+        .card:hover { transform: translateY(-3px) !important; }
+        .card.placement:hover { box-shadow: 0 12px 24px -6px rgba(239,68,68,0.35) !important; }
+        .card.result:hover { box-shadow: 0 12px 24px -6px rgba(59,130,246,0.35) !important; }
+        .card.event:hover { box-shadow: 0 12px 24px -6px rgba(16,185,129,0.35) !important; }
     </style>
 </head>
 <body>
-
-    <div class="wrapper">
-        <header>
-            <h1>Student Priority Inbox</h1>
-            <p class="desc"><span class="live-beacon"></span>Live updates filtered to show top 10 relevant unread notices.</p>
-        </header>
-
-        <main id="inbox-container">
-            <div class="status-text">Connecting to real-time notification node...</div>
-        </main>
-    </div>
-
-    <script>
-        const PATCH_BASE = '/api/v1/notifications';
-        const TARGET_ENDPOINT = 'http://4.224.186.213/evaluation-service/notifications';
-
-        // Mock stream backup dataset to guarantee perfect sorting render if server CORS blocks the call
-        const backupDataFeed = [
-            { id: "1", type: "Event", title: "Annual Tech Fest 2026", message: "Registrations are open for hackathons and coding tournaments.", isRead: false, createdAt: "2026-06-05T08:00:00Z" },
-            { id: "2", type: "Placement", title: "Amazon Off-Campus Drive", message: "Software Development Engineer intern roles are open for third-year students.", isRead: false, createdAt: "2026-06-05T09:30:00Z" },
-            { id: "3", type: "Result", title: "B.Tech III-I Regular Results", message: "Semester results are live on the official evaluation server portal.", isRead: false, createdAt: "2026-06-04T14:00:00Z" },
-            { id: "4", type: "Placement", title: "TCS Ninja Mass Hiring", message: "Pre-placement talks schedule dispatched to registered emails.", isRead: false, createdAt: "2026-06-05T06:15:00Z" },
-            { id: "5", type: "Event", title: "Guest Lecture on Blockchain", message: "Join us at the seminar hall to understand Web3 architecture trends.", isRead: true, createdAt: "2026-06-03T10:00:00Z" },
-            { id: "6", type: "Result", title: "Revaluation Notification", message: "Applications for script re-verification close this weekend.", isRead: false, createdAt: "2026-06-05T09:00:00Z" },
-            { id: "7", type: "Placement", title: "Google Step Internship", message: "Coding challenge shortlists are out. Check your inbox.", isRead: false, createdAt: "2026-06-05T09:45:00Z" }
-        ];
-
-        let dataFeed = [];
-
-        function evaluatePriorityWeight(category) {
-            if (category === 'Placement') return 3;
-            if (category === 'Result') return 2;
-            if (category === 'Event') return 1;
-            return 0;
-        }
-
-        function renderDashboard() {
-            const displayList = document.getElementById('inbox-container');
-
-            const processedFeed = dataFeed
-                .filter(item => item.isRead === false)
-                .sort((a, b) => {
-                    const weightDiff = evaluatePriorityWeight(b.type) - evaluatePriorityWeight(a.type);
-                    if (weightDiff !== 0) return weightDiff;
-                    return new Date(b.createdAt) - new Date(a.createdAt);
-                })
-                .slice(0, 10);
-
-            if (processedFeed.length === 0) {
-                displayList.innerHTML = '<div class="status-text">Your priority inbox is completely clear!</div>';
-                return;
-            }
-
-            displayList.innerHTML = processedFeed.map(notification => `
-                <section class="card ${notification.type.toLowerCase()}" data-id="${notification.id}">
-                    <div class="meta">
-                        <span class="badge ${notification.type.toLowerCase()}">${notification.type}</span>
-                        <span class="time">${new Date(notification.createdAt).toLocaleString()}</span>
-                    </div>
-                    <h2 class="title">${notification.title}</h2>
-                    <p class="msg">${notification.message}</p>
-                    <div class="card-actions">
-                        <button class="mark-read-btn" data-id="${notification.id}">
-                            ✓ Mark as Read
-                        </button>
-                    </div>
-                </section>
-            `).join('');
-        }
-
-        async function markAsRead(notificationId) {
-            const card = document.querySelector(`.card[data-id="${notificationId}"]`);
-            if (card) {
-                const btn = card.querySelector('.mark-read-btn');
-                if (btn) btn.disabled = true;
-                card.classList.add('removing');
-            }
-
-            try {
-                const response = await fetch(`${PATCH_BASE}/${notificationId}/read`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Authorization': 'Bearer <JWT_ACCESS_TOKEN>',
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (!response.ok) throw new Error('Failed to mark as read');
-
-                const item = dataFeed.find(n => n.id === notificationId);
-                if (item) item.isRead = true;
-
-                setTimeout(() => {
-                    renderDashboard();
-                }, 300);
-            } catch (err) {
-                console.error('PATCH failed, applying optimistic update locally.');
-                const item = dataFeed.find(n => n.id === notificationId);
-                if (item) item.isRead = true;
-                renderDashboard();
-            }
-        }
-
-        async function initializeDashboard() {
-            try {
-                const response = await fetch(TARGET_ENDPOINT);
-                if (!response.ok) throw new Error('Network response error');
-                dataFeed = await response.json();
-            } catch (err) {
-                console.warn("API Connection blocked by CORS. Using clean secondary pipeline stream.");
-                dataFeed = backupDataFeed;
-            }
-
-            renderDashboard();
-        }
-
-        document.getElementById('inbox-container').addEventListener('click', function (e) {
-            const btn = e.target.closest('.mark-read-btn');
-            if (btn) {
-                const notificationId = btn.getAttribute('data-id');
-                if (notificationId) markAsRead(notificationId);
-            }
-        });
-
-        initializeDashboard();
-    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>

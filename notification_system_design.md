@@ -4,6 +4,7 @@
 
 ### A. Fetch Notifications
 * **Endpoint:** `GET /api/v1/notifications`
+* **Description:** Retrieves a paginated list of system-wide notifications for the logged-in student.
 * **Headers:**
   ```http
   Authorization: Bearer <JWT_ACCESS_TOKEN>
